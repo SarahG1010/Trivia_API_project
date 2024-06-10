@@ -48,47 +48,391 @@ flask run --reload
 
 The `--reload` flag will detect file changes and restart the server automatically.
 
-## To Do Tasks
 
-These are the files you'd want to edit in the backend:
+## Endpoints (Updated by Sarah)
 
-1. `backend/flaskr/__init__.py`
-2. `backend/test_flaskr.py`
 
-One note before you delve into your tasks: for each endpoint, you are expected to define the endpoint and response data. The frontend will be a plentiful resource because it is set up to expect certain endpoints and response data formats already. You should feel free to specify endpoints in your own way; if you do so, make sure to update the frontend or you will get some unexpected behavior.
+1. `GET /categories'`
 
-1. Use Flask-CORS to enable cross-domain requests and set response headers.
-2. Create an endpoint to handle `GET` requests for questions, including pagination (every 10 questions). This endpoint should return a list of questions, number of total questions, current category, categories.
-3. Create an endpoint to handle `GET` requests for all available categories.
-4. Create an endpoint to `DELETE` a question using a question `ID`.
-5. Create an endpoint to `POST` a new question, which will require the question and answer text, category, and difficulty score.
-6. Create a `POST` endpoint to get questions based on category.
-7. Create a `POST` endpoint to get questions based on a search term. It should return any questions for whom the search term is a substring of the question.
-8. Create a `POST` endpoint to get questions to play the quiz. This endpoint should take a category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions.
-9. Create error handlers for all expected errors including 400, 404, 422, and 500.
-
-## Documenting your Endpoints
-
-You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
-
-### Documentation Example
-
-`GET '/api/v1.0/categories'`
-
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
-
+- Returns: A dictionary of categories and sucessful value
+- Test with curl :`curl http://127.0.0.1:5000/categories`
 ```json
 {
-  "1": "Science",
-  "2": "Art",
-  "3": "Geography",
-  "4": "History",
-  "5": "Entertainment",
-  "6": "Sports"
+  "categories": {
+    "1": "science", 
+    "2": "art", 
+    "3": "geography", 
+    "4": "history", 
+    "5": "entertainment", 
+    "6": "sports"
+  }, 
+  "success": true
 }
 ```
+2. `GET /questions'`
+
+- Request Arguments: None
+- Returns: A dictionary of categories, a dictionary of questions for current page, total number of questions and sucessful value.
+- Test with curl :`curl http://127.0.0.1:5000/questions`
+```json
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 20
+}
+```
+3`DELETE /questions/{id}`
+
+
+
+General:
+
+Deletes the question of the given ID if it exists. Returns success value.
+
+- Request Arguments: `question_id`
+- Returns: delete question id, new question list for current page, sucessful value and total number of questions
+- Test with curl :`curl -X DELETE http://127.0.0.1:5000/questions/26` 
+- (Note: question id need to be updated based on question list)
+```json
+{
+  "question_deleted_id": 26,
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 19
+}
+```
+
+
+4. `POST /questions'`
+Create a new question.
+- Request Arguments: None
+- Returns: success value, the created question id, total questions number, and updated questions list for current page
+- Test with curl :`curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question":"test1", "answer": "test1","category" :"1", "difficulty":"1"}'`
+```json
+{
+  "created": 28,
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 21
+}
+```
+
+5. `POST /questions/search`
+search for a question using the submitted search term. Returns the results, success value, total questions.
+Sample 
+Search for a question based on the search term.
+- Request Arguments: `searchTerm`
+- Returns: questions(if exist) for current page, success value, number of questions returned
+- Test with curl :`curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm":"test"}'`
+```json
+{
+  "currentCategory": "--",
+  "questions": [
+    {
+      "answer": "1",
+      "category": 1,
+      "difficulty": 1,
+      "id": 27,
+      "question": "test"
+    },
+    {
+      "answer": "test1",
+      "category": 1,
+      "difficulty": 1,
+      "id": 28,
+      "question": "test1"
+    }
+  ],
+  "success": true,
+  "total_questions": 2
+}
+
+```
+
+
+6. `GET /categories/{id}/questions`
+
+- Request Arguments: `category_id`
+- Returns: Success value, current category,a dictionary of questions in the given category_id, total number questions in current category 
+- Test with curl: `curl http://127.0.0.1:5000/categories/5/questions`
+```json
+{
+  "current_category": [
+    "Entertainment"
+  ],
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }
+  ],
+  "success": true,
+  "total_questions": 3
+}
+```
+
+
+7. `POST /quizzes`
+
+- Request Arguments: None
+- Returns: success value,next question information and previous question id
+- Test with curl :`curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Entertainment","id":"5"}, "previous_questions":[2]}'`
+```json
+{
+  "previousQuestion": [
+    2
+  ],
+  "question": {
+    "answer": "Edward Scissorhands",
+    "category": 5,
+    "difficulty": 3,
+    "id": 6,
+    "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+  },
+  "success": true
+}
+```
+
+
 
 ## Testing
 

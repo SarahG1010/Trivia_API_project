@@ -43,9 +43,10 @@ class QuizView extends Component {
   };
 
   getNextQuestion = () => {
-    const previousQuestions = [...this.state.previousQuestions]
-    if(this.state.currentQuestion.id) { previousQuestions.push(this.state.currentQuestion.id) }
-    //console.log(previousQuestions)
+    const previousQuestions = [...this.state.previousQuestions];
+    if (this.state.currentQuestion.id) {
+      previousQuestions.push(this.state.currentQuestion.id);
+    }
 
     $.ajax({
       url: '/quizzes', //TODO: update request URL
@@ -71,7 +72,6 @@ class QuizView extends Component {
         return;
       },
       error: (error) => {
-        console.error("An error occurred!");
         alert('Unable to load question. Please try your request again');
         return;
       },

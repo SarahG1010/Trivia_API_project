@@ -84,7 +84,7 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/questions/search`, //TODO: update request URL
+      url: `/questions`, //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -97,7 +97,7 @@ class QuestionView extends Component {
         this.setState({
           questions: result.questions,
           totalQuestions: result.total_questions,
-          currentCategory: result.current_category
+          currentCategory: result.current_category,
         });
         return;
       },
@@ -129,17 +129,32 @@ class QuestionView extends Component {
   render() {
     return (
       <div className='question-view'>
-        <div className="categories-list">
-          <h2 onClick={() => {this.getQuestions()}}>Categories</h2>
+        <div className='categories-list'>
+          <h2
+            onClick={() => {
+              this.getQuestions();
+            }}
+          >
+            Categories
+          </h2>
           <ul>
-            {Object.keys(this.state.categories).map((id, ) => (
-              <li key={id} onClick={() => {this.getByCategory(id)}}>
+            {Object.keys(this.state.categories).map((id) => (
+              <li
+                key={id}
+                onClick={() => {
+                  this.getByCategory(id);
+                }}
+              >
                 {this.state.categories[id]}
-                <img className="category" src={`${this.state.categories[id]}.svg`}/>
+                <img
+                  className='category'
+                  alt={`${this.state.categories[id].toLowerCase()}`}
+                  src={`${this.state.categories[id].toLowerCase()}.svg`}
+                />
               </li>
             ))}
           </ul>
-          <Search submitSearch={this.submitSearch}/>
+          <Search submitSearch={this.submitSearch} />
         </div>
         <div className='questions-list'>
           <h2>Questions</h2>
